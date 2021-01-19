@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Grid } from "@material-ui/core";
 import { Card, CardContent } from "@material-ui/core";
 import { Typography } from "@material-ui/core";

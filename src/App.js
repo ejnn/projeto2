@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import startServer from "./mirage.js";
 
 import ProcessCard from "./ProcessCard.js";
+import ProcessDetailsCard from "./ProcessDetailsCard.js";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import "@fontsource/montserrat";
 
 const theme = createMuiTheme({
@@ -70,7 +71,7 @@ function App() {
     
     return (
 	    <ThemeProvider theme={theme}>
-	    <ProcessCard process={process}/>
+	    <ProcessDetailsCard process={process}/>
 	    </ThemeProvider>
     );
 }
