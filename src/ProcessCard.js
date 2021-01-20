@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { Card, CardContent } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
-import image from "./imagemCardGrande.svg";
+import image from "./imagemCardPequena.svg";
 
 const normalCardRecipe = {
     entries: {
