@@ -4,6 +4,7 @@ import startServer from "./mirage.js";
 
 import ProcessCard from "./ProcessCard.js";
 import ProcessDetailsCard from "./ProcessDetailsCard.js";
+import SearchBar from "./SearchBar.js";
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import "@fontsource/montserrat";
@@ -71,6 +72,8 @@ function App() {
     
     return (
 	    <ThemeProvider theme={theme}>
+	    <ProcessCard process={process}/>
+	    <SearchBar/>
 	    <ProcessDetailsCard process={process}/>
 	    </ThemeProvider>
     );
