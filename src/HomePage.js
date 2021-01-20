@@ -1,9 +1,8 @@
 import { Input, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import { Card, CardContent } from "@material-ui/core";
-import { Grid } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
-import { Button } from "@material-ui/core";
+import { Box } from "@material-ui/core";
+import { Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const searchPlaceholder = "  Pesquise por uma informação do processo";
@@ -13,26 +12,31 @@ const useStyles = makeStyles({
 	padding: "8px",
 	"&:last-child": {
 	    paddingBottom: "8px",
-	}
-    }
+	},
+
+	minWidth: "520px",
+    },
 });
 
-const SearchBar = ({}) => {
+const HomePage = ({}) => {
     const classes = useStyles();
     
     return (
-	<Grid container
-	      alignItems="center"
-	      spacing={2}>
-	    <Grid item
-		  xs={2}>
-		<Typography variant="h2"
+	    <Box display="flex"
+		 flexDirection="column"
+		 justifyContent="center"
+		 alignItems="center"
+		 alignContent="center"
+		 minHeight="100vh">
+
+		<Typography variant="h1"
 			    align="center">
-		    Busca de processos
+	   	    Busca de processos
 		</Typography>
-	    </Grid>
-	    <Grid item
-		  xs={5}>
+
+		<Box height="32px">
+		</Box>
+		
 		<Card>
 		    <CardContent className={classes.searchCard}>
 			<Input fullWidth
@@ -45,16 +49,16 @@ const SearchBar = ({}) => {
 			       }/>
 		    </CardContent>
 		</Card>
-	    </Grid>
-	    <Grid item
-		  xs={2}>
-		<Button variant="outlined"
-			fullWidth>
-		    novo
-		</Button>
-	    </Grid>
-	</Grid>
+
+		<Box height="64px">
+		</Box>
+		
+		<Typography variant="body1"
+			    align="center">
+		    Você pode criar um novo processo clicando aqui.
+		</Typography>
+	    </Box>
     );
 };
 
-export default SearchBar;
+export default HomePage;

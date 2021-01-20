@@ -6,6 +6,7 @@ import ProcessCard from "./ProcessCard.js";
 import ProcessDetailsCard from "./ProcessDetailsCard.js";
 import SearchBar from "./SearchBar.js";
 import ProcessFormCard from "./ProcessFormCard.js";
+import HomePage from "./HomePage.js";
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import "@fontsource/montserrat";
@@ -73,7 +74,7 @@ function App() {
     
     return (
 	    <ThemeProvider theme={theme}>
-	    <ProcessFormCard/>
+	    <HomePage/>
 	    </ThemeProvider>
     );
 }
