@@ -23,13 +23,14 @@ const useStyles = makeStyles({
     }
 });
 
-const ProcessDetailsCard = ({ process }) => {
+const ProcessDetailsCard = ({ process, onClose, onDelete, onEdit }) => {
     const classes = useStyles();
     
     return (
 	<Card>
 	    <CardContent className={classes.relative}>
-		<IconButton className={classes.closeButton}>
+	    <IconButton className={classes.closeButton}
+			onClick={onClose}>
 		    <CloseIcon/>
 		</IconButton>
 		
@@ -117,10 +118,12 @@ const ProcessDetailsCard = ({ process }) => {
 	    </CardContent>
 	    
 	    <CardActions className={classes.rightJustified}>
-		<Button variant="outlined">
+		<Button variant="outlined"
+			onClick={onDelete}>
 		    remover
 		</Button>
-		<Button variant="outlined">
+	    <Button variant="outlined"
+		    onClick={onEdit}>
 		    editar
 		</Button>
 	    </CardActions>

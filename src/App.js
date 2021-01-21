@@ -56,23 +56,6 @@ const theme = createMuiTheme({
 startServer();
 
 function App() {
-    const [process, setProcess] = useState({
-	numero: "",
-	entrada: "",
-	descricao: "",
-	assunto: "",
-	interessados: [],
-    });
-    
-    useEffect(() => {
-	fetch('http://localhost:3000/processo/?q=')
-	    .then(res => res.json())
-	    .then(json => {
-		console.log(json);
-		setProcess(json.processos[0]);
-	    });
-    }, []);
-    
     return (
 	    <ThemeProvider theme={theme}>
 	    <ProcessConsultationPage/>

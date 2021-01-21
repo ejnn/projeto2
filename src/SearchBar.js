@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     }
 });
 
-const SearchBar = ({}) => {
+const SearchBar = ({ query, onChange, onNewQuery }) => {
     const classes = useStyles();
     
     return (
@@ -35,7 +35,9 @@ const SearchBar = ({}) => {
 		  xs={5}>
 		<Card>
 		    <CardContent className={classes.searchCard}>
-			<Input fullWidth
+			<Input value={query}
+			       onChange={onChange}
+			       fullWidth
 			       disableUnderline
 			       placeholder={searchPlaceholder}
 			       endAdornment={
@@ -48,7 +50,8 @@ const SearchBar = ({}) => {
 	    </Grid>
 	    <Grid item
 		  xs={2}>
-		<Button variant="outlined"
+		<Button onClick={onNewQuery}
+			variant="outlined"
 			fullWidth>
 		    novo
 		</Button>

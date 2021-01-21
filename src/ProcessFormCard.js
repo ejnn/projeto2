@@ -1,10 +1,12 @@
+import { useState, useEffect } from "react";
 import { Card, CardHeader, CardContent, CardActions } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { IconButton } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
-import { List, ListSubheader } from "@material-ui/core";
+import { List, ListSubheader, ListItem } from "@material-ui/core";
 import { Button } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -13,16 +15,68 @@ const useStyles = makeStyles({
     }
 });
 
-const ProcessFormCard = ({ process }) => {
+const ProcessFormCard = ({ process, onClose }) => {
     const classes = useStyles();
+
+    const [formData, setFormData] = useState(process ? process
+					     : {
+						 assunto: "",
+						 interessados: [],
+						 descricao: ""
+					     }
+					    );
     
+    const handleChange = (event) => {
+	setFormData(data => ({...data, [event.target.name]: event.target.value}));
+    };
+
+    const [novoInteressado, setNovoInteressado] = useState("");
+
+    const handleNovoInteressadoChange = (event) => {
+	setNovoInteressado(event.target.value);
+    };
+
+    const addNovoInteressado = () => {
+	setFormData(data => ({...data, interessados: [...data.interessados, novoInteressado]}));
+	setNovoInteressado("");
+    };
+
+    const handleSubmit = () => {
+	const reqBody = {};
+	Object.keys(formData).forEach(key => {
+	    if (typeof process == "undefined" || formData[key] !== process[key]) {
+		reqBody[key] = formData[key];
+	    }
+	});
+
+	const options = {
+	    headers: {
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+	    },
+	    body: JSON.stringify(reqBody)
+	};
+
+	// se estivermos editando um processo novo,
+	// mandaremos um POST; caso contrário, um PATCH!
+	if (typeof process == "undefined") {
+	    options.method = "POST";
+	    fetch("http://localhost:3000/processo/", options);
+	} else {
+	    options.method = "PATCH";
+	    fetch("http://localhost:3000/processo/" + process.id, options);
+	}
+
+	onClose();
+    };
+
     return (
 	<Card>
 	    <CardHeader className={classes.bottomPaddingless}
 			title="Cadastro de processo"
 			titleTypographyProps={{variant: "h2"}}
 			action={
-	    		<IconButton>
+	    			<IconButton onClick={onClose}>
 	    		    <CloseIcon/>
 	    		</IconButton>
 			}/>
@@ -32,7 +86,10 @@ const ProcessFormCard = ({ process }) => {
 		      alignItems="center">
 	    	    <Grid item
 	    		  xs={5}>
-			<TextField fullWidth
+			<TextField value={formData.assunto}
+				   name="assunto"
+				   onChange={handleChange}
+				   fullWidth
 				   label="Assunto"/>
 	    	    </Grid>
 
@@ -47,6 +104,21 @@ const ProcessFormCard = ({ process }) => {
 				      Interessados
 				  </ListSubheader>
 			      }>
+			    {
+				<Grid container
+				      spacing={1}>
+				    {
+					formData.interessados.map(interessado =>
+					    <Grid item
+						  xs={6}>
+						<Typography variant="body1">
+						    {interessado}
+						</Typography>
+					    </Grid>
+					)
+				    }
+				</Grid>
+			    }
 			</List>
 	    	    </Grid>
 
@@ -56,13 +128,16 @@ const ProcessFormCard = ({ process }) => {
 
 		    <Grid item
 			  xs={5}>
-			<TextField fullWidth
+			<TextField value={novoInteressado}
+				   onChange={handleNovoInteressadoChange}
+				   fullWidth
 				   label="Novo interessado"/>
 		    </Grid>
 
 		    <Grid item
 			  xs={2}>
-			<Button variant="contained">
+			<Button onClick={addNovoInteressado}
+				variant="contained">
 			    adicionar
 			</Button>
 		    </Grid>
@@ -73,7 +148,10 @@ const ProcessFormCard = ({ process }) => {
 
 		    <Grid item
 			  xs={10}>
-			<TextField fullWidth
+			<TextField value={formData.descricao}
+				   name="descricao"
+				   onChange={handleChange}
+				   fullWidth
 				   label="Descrição"
 				   multiline/>
 		    </Grid>
@@ -97,7 +175,8 @@ const ProcessFormCard = ({ process }) => {
 
 		    <Grid item
 			  xs={2}>
-			<Button variant="contained"
+			<Button onClick={handleSubmit}
+				variant="contained"
 				fullWidth>
 			    salvar
 			</Button>

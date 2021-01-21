@@ -1,38 +1,96 @@
 import { useState, useEffect } from "react";
+
 import { Grid } from "@material-ui/core";
 import { List, ListItem } from "@material-ui/core";
+import { ToggleButtonGroup, ToggleButton } from "@material-ui/lab";
+import { makeStyles } from "@material-ui/core/styles";
+import { Modal } from "@material-ui/core";
+
 import SearchBar from "./SearchBar.js";
 import ProcessCard from "./ProcessCard.js";
 import ProcessDetailsCard from "./ProcessDetailsCard.js";
-    
+import ProcessFormCard from "./ProcessFormCard.js";
+
+const useStyles = makeStyles({
+    flex: {
+	display: "flex",
+    }
+});
 
 const ProcessConsultationPage = ({}) => {
-    const [process, setProcess] = useState({
-	numero: "",
-	entrada: "",
-	descricao: "",
-	assunto: "",
-	interessados: [],
-    });
+    const classes = useStyles();
+
+    const [selectedProcess, setSelectedProcess] = useState(null);
+
+    const handleSelectedProcess = (event, selected) => {
+	setSelectedProcess(selected);
+    };
+
+    const deselectProcess = () => {
+	setSelectedProcess(null);
+    };
+
+    const deleteSelectedProcess = () => {
+	fetch("http://localhost:3000/processo/" + selectedProcess.id,
+	      {
+		  method: "DELETE"
+	      }
+	     )
+	    .then(updateProcesses)
+	    .then(deselectProcess);
+    };
+
+    const updateProcesses = () => {
+	fetch("http://localhost:3000/processo/?q=" + query)
+	    .then(res => res.json())
+	    .then(json => {
+		setProcesses(json.processos);
+	    });
+    }
+
+    const [query, setQuery] = useState("");
+
+    const handleNewQuery = () => {
+	deselectProcess();
+	setQuery("");
+    };
+
+    const handleQueryChange = (event) => {
+	setQuery(event.target.value);
+    };
+
+    useEffect(() => {
+	updateProcesses();
+    }, [query]);
 
     const [processes, setProcesses] = useState([]);
     
     useEffect(() => {
-	fetch('http://localhost:3000/processo/?q=')
-	    .then(res => res.json())
-	    .then(json => {
-		console.log(json);
-		setProcess(json.processos[0]);
-		setProcesses(json.processos);
-	    });
+	updateProcesses();
     }, []);
 
+    const [modal, setModal] = useState(false);
+
+    const handleModalOpen = () => {
+	setModal(true);
+    };
+
+    const handleModalClose = () => {
+	setModal(false);
+	updateProcesses();
+	deselectProcess();
+    };
+
+
     return (
+	<>
 	<Grid container
 	      spacing={2}>
 	    <Grid item
 		  xs={12}>
-		<SearchBar/>
+		<SearchBar query={query}
+			   onNewQuery={handleNewQuery}
+			   onChange={handleQueryChange}/>
 	    </Grid>
 
 	    <Grid item
@@ -40,23 +98,44 @@ const ProcessConsultationPage = ({}) => {
 	    </Grid>
 
 	    <Grid item
-		  xs={5}>
+		  xs={selectedProcess ? 5 : 8}>
 		<List>
+		    <ToggleButtonGroup className={classes.flex}
+				       value={selectedProcess}
+				       onChange={handleSelectedProcess}
+				       exclusive
+				       orientation="vertical">
 		    {
 			processes.map(process =>
-			    <ListItem disableGutters>
-				<ProcessCard shortened process={process}/>
-			    </ListItem>
+			    <ToggleButton value={process}>
+				<ListItem disableGutters>
+			    	    <ProcessCard shortened={selectedProcess ? true : false}
+			    			 process={process}/>
+				</ListItem>
+			    </ToggleButton>
 			)
 		    }
+		    </ToggleButtonGroup>
 		</List>
 	    </Grid>
 
+	    { selectedProcess ?
 	    <Grid item
 		  xs={5}>
-		<ProcessDetailsCard process={process}/>
+		<ProcessDetailsCard process={selectedProcess}
+				    onClose={deselectProcess}
+				    onDelete={deleteSelectedProcess}
+				    onEdit={handleModalOpen}/>
+		<Modal open={modal}
+		       onClose={handleModalClose}>
+		    <ProcessFormCard process={selectedProcess}
+				     onClose={handleModalClose} />
+		</Modal>
 	    </Grid>
+	      : null
+	    }
 	</Grid>
+	    </>
     );
 };
 
