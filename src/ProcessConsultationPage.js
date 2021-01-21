@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 
 import { Grid } from "@material-ui/core";
 import { List, ListItem } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { ToggleButtonGroup, ToggleButton } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import { Modal } from "@material-ui/core";
@@ -83,14 +85,38 @@ const ProcessConsultationPage = ({}) => {
 
 
     return (
-	<>
 	<Grid container
 	      spacing={2}>
 	    <Grid item
-		  xs={12}>
+		  xs={2}>
+		<Typography variant="h2"
+			    align="center">
+		    Busca de processos
+		</Typography>
+	    </Grid>
+
+	    <Grid item
+		  xs={5}>
 		<SearchBar query={query}
 			   onNewQuery={handleNewQuery}
 			   onChange={handleQueryChange}/>
+	    </Grid>
+
+	    <Grid item
+		  xs={2}>
+		<Button onClick={handleModalOpen}
+			fullWidth
+			variant="outlined">
+		    Novo
+		</Button>
+		<Modal open={modal}
+		       onClose={handleModalClose}>
+		    <ProcessFormCard onClose={handleModalClose}/>
+		</Modal>
+	    </Grid>
+
+	    <Grid item
+		  xs={3}>
 	    </Grid>
 
 	    <Grid item
@@ -135,7 +161,6 @@ const ProcessConsultationPage = ({}) => {
 	      : null
 	    }
 	</Grid>
-	    </>
     );
 };
 

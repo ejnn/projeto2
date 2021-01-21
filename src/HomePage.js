@@ -5,6 +5,8 @@ import { Box } from "@material-ui/core";
 import { Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import SearchBar from "./SearchBar.js";
+
 const searchPlaceholder = "  Pesquise por uma informação do processo";
 
 const useStyles = makeStyles({
@@ -13,7 +15,7 @@ const useStyles = makeStyles({
 	"&:last-child": {
 	    paddingBottom: "8px",
 	},
-
+	
 	minWidth: "520px",
     },
 });
@@ -22,42 +24,31 @@ const HomePage = ({}) => {
     const classes = useStyles();
     
     return (
-	    <Box display="flex"
-		 flexDirection="column"
-		 justifyContent="center"
-		 alignItems="center"
-		 alignContent="center"
-		 minHeight="100vh">
-
-		<Typography variant="h1"
-			    align="center">
-	   	    Busca de processos
-		</Typography>
-
-		<Box height="32px">
-		</Box>
-		
-		<Card>
-		    <CardContent className={classes.searchCard}>
-			<Input fullWidth
-			       disableUnderline
-			       placeholder={searchPlaceholder}
-			       endAdornment={
-				   <InputAdornment>
-				       <SearchIcon/>
-				   </InputAdornment>
-			       }/>
-		    </CardContent>
-		</Card>
-
-		<Box height="64px">
-		</Box>
-		
-		<Typography variant="body1"
-			    align="center">
-		    Você pode criar um novo processo clicando aqui.
-		</Typography>
+	<Box display="flex"
+	     flexDirection="column"
+	     justifyContent="center"
+	     alignItems="center"
+	     alignContent="center"
+	     minHeight="100vh">
+	    
+	    <Typography variant="h1"
+			align="center">
+	   	Busca de processos
+	    </Typography>
+	    
+	    <Box height="32px">
 	    </Box>
+	    
+	    <SearchBar/>
+	    
+	    <Box height="64px">
+	    </Box>
+	    
+	    <Typography variant="body1"
+			align="center">
+		Você pode criar um novo processo clicando aqui.
+	    </Typography>
+	</Box>
     );
 };
 
