@@ -4,14 +4,47 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Typography } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import image from "./imagemCardGrande.svg";
 import { Box } from "@material-ui/core";
 
+import theme from "./theme.js";
+import headerImage from "./imagemProcesso.svg";
+
 const useStyles = makeStyles({
+    ...theme,
+
+    title : {
+	...theme.title,
+	color: theme.colors.black87,
+    },
+
+    subtitle: {
+	...theme.subtitle,
+	color: theme.colors.black54,
+    },
+
+    body: {
+	...theme.body,
+	color: theme.colors.black87,
+    },
+
+    widthfulImage: {
+	width: "100%",
+    },
+    
     closeButton: {
 	position: "absolute",
 	right: "0",
 	top: "0",
+	fill: theme.colors.black54,
+    },
+
+    removeButton: {
+	color: theme.colors.black54,
+    },
+
+    editButton: {
+	color: theme.colors.primary,
+	border: "1px solid " + theme.colors.primary,
     },
 
     relative: {
@@ -25,106 +58,121 @@ const useStyles = makeStyles({
 
 const ProcessDetailsCard = ({ process, onClose, onDelete, onEdit }) => {
     const classes = useStyles();
+
+    const createTypographyCombo = (title, body, headerFlag) => {
+	return (
+	    <>
+		<Typography className={classes.subtitle}>
+		    {title}
+		</Typography>
+		<Typography noWrap
+			    className={headerFlag ? classes.title : classes.body}>
+		    {body}
+		</Typography>
+	    </>
+	);
+    };
     
     return (
 	<Card>
 	    <CardContent className={classes.relative}>
-	    <IconButton className={classes.closeButton}
-			onClick={onClose}>
+		<IconButton className={classes.closeButton}
+			    onClick={onClose}>
 		    <CloseIcon/>
 		</IconButton>
-		
-		{/* header */}
+
 		<Grid container
-		      spacing={1}>
+		      spacing={2}>
+
+		    {/* header */}
 		    <Grid item
-			  xs="auto">
-			<img src={image}/>
+			  container
+			  spacing={2}
+			  alignItems="center">
+			<Grid item
+			      xs={4}>
+			    <Box display="flex">
+				<img className={classes.widthfulImage}
+				     src={headerImage}/>
+			    </Box>
+			</Grid>
+
+			<Grid item
+			      xs={8}>
+			    <Grid item
+				  container
+				  alignContent="center"
+				  spacing={2}>
+				<Grid item
+				      xs={6}>
+				    { createTypographyCombo("Processo", process.numero, "header") }
+				</Grid>
+
+				<Grid item
+				      xs={6}>
+				    { createTypographyCombo("Data", process.entrada, "header") }
+				</Grid>
+
+				<Grid item
+				      xs={12}>
+				    { createTypographyCombo("Assunto", process.assunto, "header") }
+				</Grid>
+			    </Grid>
+			</Grid>
 		    </Grid>
-		    
+
+		    {/* body */}
 		    <Grid item
 			  container
 			  spacing={1}
-			  xs={10}>
-			<Grid item
-			      xs={6}>
-			    <Typography variant="subtitle1">
-				Processo
-			    </Typography>
-			    
-			    <Typography variant="h1">
-				{process.numero}
-			    </Typography>
-			</Grid>
-			
-			<Grid item
-			      xs={6}>
-			    <Typography variant="subtitle1">
-				Data
-			    </Typography>
-			    
-			    <Typography variant="h1">
-				{process.entrada}
-			    </Typography>
-			</Grid>
-			
+			  xs={12}>
 			<Grid item
 			      xs={12}>
-			    <Typography variant="subtitle1">
-				Assunto
+			    <Typography className={classes.subtitle}>
+				Interessados
 			    </Typography>
-			    
-			    <Typography variant="h1">
-				{process.assunto}
+
+			    <Grid container>
+				{
+			   	    process.interessados.map(interessado =>
+			   		<Grid item
+			   		      xs={6}
+			   		      key={interessado}>
+			   		    <Typography className={classes.body}>
+			   			{interessado}
+			   		    </Typography>
+			   		</Grid>)
+				}
+			    </Grid>
+			</Grid>
+
+			<Grid item
+			      xs={12}>
+			    <Typography className={classes.subtitle}>
+				Descrição
+			    </Typography>
+			    <Typography className={classes.body}>
+				{process.descricao}
 			    </Typography>
 			</Grid>
-		    </Grid>
-		</Grid>
-		
-		{/* body */}
-		<Grid container
-		      spacing={1}>
-		    <Grid item
-			  xs={12}>
-			<Typography variant="subtitle1">
-			    Interessados
-			</Typography>
-			
-			<Grid container
-			      spacing={1}>
-			    {
-				process.interessados.map(interessado =>
-				    <Grid item
-					  xs={6}>
-					<Typography variant="body1">
-					    {interessado}
-					</Typography>
-				    </Grid>
-				)
-			    }
-			</Grid>
-		    </Grid>
-		    
-		    <Grid item
-			  xs={12}>
-			<Typography variant="subtitle1">
-			    Descrição
-			</Typography>
-			<Typography variant="body1">
-			    {process.descricao}
-			</Typography>
 		    </Grid>
 		</Grid>
 	    </CardContent>
 	    
 	    <CardActions className={classes.rightJustified}>
-		<Button variant="outlined"
+		<Button className={classes.removeButton}
+			variant="outlined"
 			onClick={onDelete}>
-		    remover
+		    <Typography className={classes.buttonLabel}>
+			Remover
+		    </Typography>
 		</Button>
-	    <Button variant="outlined"
-		    onClick={onEdit}>
-		    editar
+		<Button className={classes.editButton}
+			variant="outlined"
+			onClick={onEdit}>
+		    <Typography className={classes.buttonLabel}>
+			Editar
+		    </Typography>
 		</Button>
 	    </CardActions>
 	</Card>
