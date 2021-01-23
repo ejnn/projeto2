@@ -2,11 +2,20 @@ import { Input, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import theme from "./theme.js";
 
-const searchPlaceholder = "  Pesquise por uma informação do processo";
+const searchPlaceholder = "Pesquise por uma informação do processo";
 
 const useStyles = makeStyles({
+    ...theme,
+
+    searchIcon: {
+	fill: theme.colors.black54,
+    },
+    
     searchCard: {
+	//minWidth: "464px",
+
 	padding: "8px",
 	"&:last-child": {
 	    paddingBottom: "8px",
@@ -20,14 +29,15 @@ const SearchBar = ({ query, onChange }) => {
     return (
 	<Card>
 	    <CardContent className={classes.searchCard}>
-		<Input value={query}
+		<Input className={classes.body}
+		       value={query}
 		       onChange={onChange}
 		       fullWidth
 		       disableUnderline
 		       placeholder={searchPlaceholder}
 		       endAdornment={
 			   <InputAdornment>
-			       <SearchIcon/>
+			       <SearchIcon className={classes.searchIcon}/>
 			   </InputAdornment>
 		       }/>
 	    </CardContent>

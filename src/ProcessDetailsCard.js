@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 
     widthfulImage: {
 	width: "100%",
+	maxWidth: "120px",
     },
     
     closeButton: {

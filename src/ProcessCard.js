@@ -40,6 +40,11 @@ const useStyles = makeStyles({
 
     widthfulImage: {
 	width: "100%",
+	maxWidth: "84px",
+    },
+
+    processCard: {
+	width: "100%",
     },
     
 });
@@ -62,7 +67,7 @@ const ProcessCard = ({ process, shortened, highlighted }) => {
     };
     
     return (
-	<Card className={`${highlighted ? classes.highlightedCard : ""}`}>
+	<Card className={`${highlighted ? classes.highlightedCard : ""} ${classes.processCard}`}>
 	    <CardContent className={classes.processCardContents}>
 		<Grid container
 		      spacing={1}

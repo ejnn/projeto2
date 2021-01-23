@@ -9,10 +9,45 @@ import { Button } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
+import theme from "./theme.js";
+
 const useStyles = makeStyles({
-    bottomPaddingless: {
+    ...theme,
+
+    title: {
+	...theme.title,
+	color: theme.colors.black87,
 	paddingBottom: "0",
-    }
+    },
+
+    textField: {
+	"&.MuiInputLabel-root": {
+	    ...theme.subtitle,
+	    color: "red",
+	}
+    },
+
+    closeButton: {
+	position: "absolute",
+	right: "0",
+	top: "0",
+	fill: theme.colors.black54,
+    },
+
+    addButton: {
+	...theme.buttonLabel,
+	color: "white",
+    },
+
+    saveButton: {
+	...theme.buttonLabel,
+	backgroundColor: theme.colors.primary,
+	color: "white",
+    },
+
+    relative: {
+	position: "relative"
+    },
 });
 
 const ProcessFormCard = ({ process, onClose }) => {
@@ -72,21 +107,26 @@ const ProcessFormCard = ({ process, onClose }) => {
 
     return (
 	<Card>
-	    <CardHeader className={classes.bottomPaddingless}
-			title="Cadastro de processo"
-			titleTypographyProps={{variant: "h2"}}
-			action={
-	    			<IconButton onClick={onClose}>
-	    		    <CloseIcon/>
-	    		</IconButton>
-			}/>
-	    <CardContent>
+	    <CardContent className={classes.relative}>
+	    	<IconButton className={classes.closeButton}
+			    onClick={onClose}>
+	    	    <CloseIcon/>
+	    	</IconButton>
+
 		<Grid container
 		      spacing={2}
 		      alignItems="center">
+		    <Grid item
+			  xs={11}>
+			<Typography className={classes.title}>
+			    Cadastro de processo
+			</Typography>
+		    </Grid>
+
 	    	    <Grid item
 	    		  xs={5}>
-			<TextField value={formData.assunto}
+			<TextField className={classes.textField}
+				   value={formData.assunto}
 				   name="assunto"
 				   onChange={handleChange}
 				   fullWidth
@@ -136,7 +176,8 @@ const ProcessFormCard = ({ process, onClose }) => {
 
 		    <Grid item
 			  xs={2}>
-			<Button onClick={addNovoInteressado}
+			<Button className={classes.addButton}
+				onClick={addNovoInteressado}
 				variant="contained">
 			    adicionar
 			</Button>
@@ -175,7 +216,8 @@ const ProcessFormCard = ({ process, onClose }) => {
 
 		    <Grid item
 			  xs={2}>
-			<Button onClick={handleSubmit}
+			<Button className={classes.saveButton}
+				onClick={handleSubmit}
 				variant="contained"
 				fullWidth>
 			    salvar
