@@ -12,92 +12,92 @@ import { makeStyles } from "@material-ui/core";
 import theme from "./theme.js";
 
 const useStyles = makeStyles({
-
+    
     cardTitle: {
-
+	
 	...theme.fonts.title,
-
+	
 	color: theme.colors.black87,
 	paddingBottom: "0",
-
+	
     },
-
+    
     keyText: {
-
+	
 	...theme.fonts.subtitle,
-
+	
 	color: theme.colors.black54,
-
+	
     },
-
+    
     valueText: {
-
+	
 	...theme.fonts.body,
-
+	
 	color: theme.colors.black87,
-
+	
     },
-
+    
     textField: {
-
+	
 	"& .MuiInputBase-root": {
-
+	    
 	    ...theme.fonts.body,
-
+	    
 	    color: theme.colors.black87,
 	    
 	},
-
+	
 	"& .MuiFormLabel-root": {
-
+	    
 	    ...theme.fonts.subtitle,
-
+	    
 	    color: theme.colors.black54,
-
+	    
 	}
-
+	
     },
-
+    
     closeButton: {
 	fill: theme.colors.black54,
 	position: "absolute",
 	right: "0",
 	top: "0",
     },
-
+    
     addButton: {
-
+	
 	...theme.fonts.buttonLabel,
-
+	
 	color: "white",
-
+	
     },
-
+    
     saveButton: {
-
+	
 	...theme.fonts.buttonLabel,
-
+	
 	backgroundColor: theme.colors.primary,
 	color: "white",
-
+	
     },
-
+    
     formCard: {
-
+	
 	position: "relative",
-
+	
 	"&.MuiPaper-root": {
 	    overflow: "auto",
 	},
-
+	
     },
-
+    
 });
 
 const ProcessFormCard = ({ process, onClose }) => {
-
+    
     const classes = useStyles();
-
+    
     const [formData, setFormData] = useState(
 	process
 	    ? process
@@ -111,28 +111,28 @@ const ProcessFormCard = ({ process, onClose }) => {
     const handleChange = (event) => {
     	setFormData(data => ({...data, [event.target.name]: event.target.value}));
     };
-
+    
     const [novoInteressado, setNovoInteressado] = useState("");
-
+    
     const handleNovoInteressadoChange = (event) => {
 	setNovoInteressado(event.target.value);
     };
-
+    
     const addNovoInteressado = () => {
 	setFormData(data => ({...data, interessados: [...data.interessados, novoInteressado]}));
 	setNovoInteressado("");
     };
-
+    
     const handleSubmit = () => {
-
+	
 	const reqBody = {};
-
+	
 	Object.keys(formData).forEach(key => {
 	    if (typeof process == "undefined" || formData[key] !== process[key]) {
 		reqBody[key] = formData[key];
 	    }
 	});
-
+	
 	const options = {
 	    headers: {
 		"Accept": "application/json",
@@ -140,7 +140,7 @@ const ProcessFormCard = ({ process, onClose }) => {
 	    },
 	    body: JSON.stringify(reqBody)
 	};
-
+	
 	// se estivermos criando um processo novo, mandaremos um POST.
 	// se não, estamos editando um processo existente; mandaremos um PATCH.
 	if (typeof process == "undefined") {
@@ -150,31 +150,91 @@ const ProcessFormCard = ({ process, onClose }) => {
 	    options.method = "PATCH";
 	    fetch("http://localhost:3000/processo/" + process.id, options);
 	}
-
+	
 	onClose();
     };
-
+    
+    const ListField = () => {
+	return (
+	    <>
+	    	<Grid item
+	    	      xs={5}>
+		    
+		    <Typography className={classes.keyText}>
+			Interessados
+		    </Typography>
+		    
+		    {
+			<Grid container
+			      spacing={1}>
+			    {
+				formData.interessados.map(interessado =>
+				    <Grid item
+					  xs={6}>
+					<Typography className={classes.valueText}>
+					    {interessado}
+					</Typography>
+				    </Grid>
+				)
+			    }
+			</Grid>
+		    }
+		    
+	    	</Grid>
+		
+		<Grid item
+		      xs={7}>
+		</Grid>
+		
+		<Grid item
+		      xs={5}>
+		    
+		    <TextField value={novoInteressado}
+			       onChange={handleNovoInteressadoChange}
+			       fullWidth
+			       label="Novo interessado"/>
+		    
+		</Grid>
+		
+		<Grid item
+		      xs={2}>
+		    
+		    <Button className={classes.addButton}
+			    onClick={addNovoInteressado}
+			    variant="contained">
+			adicionar
+		    </Button>
+		    
+		</Grid>
+		
+		<Grid item
+		      xs={5}>
+		</Grid>
+	    </>
+	);
+    };
+    
     return (
 	<Card className={classes.formCard}>
-
+	    
 	    <CardContent className={classes.cardContent}>
-
+		
 	    	<IconButton className={classes.closeButton}
 			    onClick={onClose}>
 	    	    <CloseIcon/>
 	    	</IconButton>
-
+		
 		<Grid container
 		      spacing={2}
 		      alignItems="center">
-
+		    
 		    <Grid item
-			  xs={11}>
+			  xs={12}>
 			<Typography className={classes.cardTitle}>
 			    Cadastro de processo
 			</Typography>
 		    </Grid>
-
+		    
 	    	    <Grid item
 	    		  xs={5}>
 			<TextField className={classes.textField}
@@ -185,68 +245,17 @@ const ProcessFormCard = ({ process, onClose }) => {
 				   multiline
 				   label="Assunto"/>
 	    	    </Grid>
-
+		    
+		    {/* row filler whitespace */}
 	    	    <Grid item
 	    		  xs={7}>
 	    	    </Grid>
-
-	    	    <Grid item
-	    		  xs={5}>
-
-			<Typography className={classes.keyText}>
-			    Interessados
-			</Typography>
-
-			    {
-				<Grid container
-				      spacing={1}>
-				    {
-					formData.interessados.map(interessado =>
-					    <Grid item
-						  xs={6}>
-						<Typography className={classes.valueText}>
-						    {interessado}
-						</Typography>
-					    </Grid>
-					)
-				    }
-				</Grid>
-			    }
-
-	    	    </Grid>
-
-		    <Grid item
-			  xs={7}>
-		    </Grid>
-
-		    <Grid item
-			  xs={5}>
-
-			<TextField value={novoInteressado}
-				   onChange={handleNovoInteressadoChange}
-				   fullWidth
-				   label="Novo interessado"/>
-
-		    </Grid>
-
-		    <Grid item
-			  xs={2}>
-
-			<Button className={classes.addButton}
-				onClick={addNovoInteressado}
-				variant="contained">
-			    adicionar
-			</Button>
-
-		    </Grid>
-
-		    <Grid item
-			  xs={5}>
-		    </Grid>
-
+		    
+		    <ListField/>
+		    
 		    <Grid item
 			  xs={10}>
-
+			
 			<TextField className={classes.textField}
 				   value={formData.descricao}
 				   name="descricao"
@@ -254,42 +263,42 @@ const ProcessFormCard = ({ process, onClose }) => {
 				   fullWidth
 				   label="Descrição"
 				   multiline/>
-
+			
 		    </Grid>
-
+		    
 		    <Grid item
 			  xs={2}>
 		    </Grid>
-
+		    
 		    {/* guideline fine-tuning */}
 		    {
 			new Array(2).fill(
-		    <Grid item
-		    	  xs={12}>
-		    </Grid>
+			    <Grid item
+		    		  xs={12}>
+			    </Grid>
 			)
 		    }
-
+		    
 		    <Grid item
 		     	  xs={10}>
 		    </Grid>
-
+		    
 		    <Grid item
 			  xs={2}>
-
+			
 			<Button className={classes.saveButton}
 				onClick={handleSubmit}
 				variant="contained"
 				fullWidth>
 			    salvar
 			</Button>
-
+			
 		    </Grid>
-
+		    
 		</Grid>
-
+		
 	    </CardContent>
-
+	    
 	</Card>
     );
 };
