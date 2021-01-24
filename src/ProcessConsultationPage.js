@@ -9,6 +9,7 @@ import { Modal } from "@material-ui/core";
 import { Box } from "@material-ui/core";
 import { Snackbar } from "@material-ui/core";
 import { CircularProgress } from "@material-ui/core";
+import { Grow } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import theme from "./theme.js";
@@ -19,21 +20,21 @@ import ProcessDetailsCard from "./ProcessDetailsCard.js";
 import ProcessFormCard from "./ProcessFormCard.js";
 
 const useStyles = makeStyles({
-
+    
     headerText: {
-
+	
 	...theme.fonts.title,
-
+	
 	color: theme.colors.black87,
 	
     },
-
+    
     snackbarText: {
-
+	
 	...theme.fonts.subtitle,
-
+	
 	color: "white",
-
+	
     },
     
     
@@ -43,18 +44,18 @@ const useStyles = makeStyles({
 	border: "none",
 	
 	"&.MuiToggleButton-root": {
-
+	    
 	    "&.Mui-selected": {
 		color: "rgba(0,0,0,0)",
 		backgroundColor: "rgba(0,0,0,0)",
 	    },
-
+	    
 	    "&:hover": {
 		color: "rgba(0,0,0,0)",
 		backgroundColor: "rgba(0,0,0,0)",
 		outline: "1px solid " + theme.colors.primary,
 	    },
-
+	    
 	},
     },
     
@@ -97,32 +98,32 @@ const useStyles = makeStyles({
 	maxWidth: "12vw",
 	borderRadius: "4px",
     },
-
+    
     mainContentWrapper: {
 	maxHeight: "80vh",
 	overflow: "auto",
     },
-
+    
     buttonLabel: {
-
+	
 	...theme.fonts.buttonLabel,
-
+	
 	color: theme.colors.black87,
-
+	
     },
-
+    
     queryProgressWrapper: {
 	height: "80vh",
     },
-
+    
     queryProgress: {
 	color: theme.colors.black38,
     },
-
+    
 });
 
 const ProcessConsultationPage = ({...props}) => {
-
+    
     const classes = useStyles();
     
     const searchBarRef = useRef(null);
@@ -141,20 +142,20 @@ const ProcessConsultationPage = ({...props}) => {
     const [processes, setProcesses] = useState([]);
     
     useEffect(() => {
-
+	
 	// reselecting the process so the user
 	// has a consistent experience
 	if (selectedProcess) {
-
+	    
 	    const id = selectedProcess.id;
 	    const found = processes.find(process => process.id == id);
-
+	    
 	    if (found) {
 		setSelectedProcess(found);
 	    }
-
+	    
 	}
-
+	
     }, [processes]);
     
     useEffect(() => {
@@ -204,21 +205,21 @@ const ProcessConsultationPage = ({...props}) => {
     const closeModal = (name) => {
 	setModals(modals => ({...modals, [name]: false}));
     };
-
+    
     const [queryInProgress, setQueryInProgress] = useState(false);
     
     return (
 	<Box className={classes.pageContent}>
-
+	    
 	    <Grid className={classes.grid}
 		  container
 		  spacing={2}>
-
+		
 		<Grid item
 		      container
 		      alignItems="center"
 		      spacing={2}>
-
+		    
 		    <Grid item
 			  xs={2}>
 			<Typography className={classes.headerText}
@@ -236,18 +237,18 @@ const ProcessConsultationPage = ({...props}) => {
 		    
 		    <Grid item
 			  xs={2}>
-
+			
 			<Button onClick={() => openModal("newProcess")}
 				fullWidth
 				variant="outlined">
-
+			    
 			    <Typography className={classes.buttonLabel}
 					align="center">
 				Novo
 			    </Typography>
-
+			    
 			</Button>
-
+			
 			<Modal open={modals.newProcess}
 			       onClose={() => closeModal("newProcess")}>
 			    <Box className={classes.mainContentWrapper}
@@ -263,9 +264,9 @@ const ProcessConsultationPage = ({...props}) => {
 						 }}/>
 			    </Box>
 			</Modal>
-
+			
 		    </Grid>
-
+		    
 		</Grid>
 		
 		<Grid item
@@ -274,7 +275,7 @@ const ProcessConsultationPage = ({...props}) => {
 		
 		<Grid item
 		      xs={selectedProcess ? 4 : 8}>
-
+		    
 		    { queryInProgress
 		      ? <Box className={classes.queryProgressWrapper}
 			     display="flex"
@@ -285,7 +286,7 @@ const ProcessConsultationPage = ({...props}) => {
 			   		      size="40%"/>
 			</Box>
 		      : <List className={classes.list}>
-
+			    
 			    <ToggleButtonGroup className={classes.toggleButtonGroup}
 					       value={selectedProcess}
 					       onChange={handleSelectedProcess}
@@ -295,43 +296,45 @@ const ProcessConsultationPage = ({...props}) => {
 				    processes.map(process =>
 					<ToggleButton className={classes.toggleButton}
 						      value={process}>
-
+					    
 					    <ListItem className={classes.listItem}
 						      disableGutters>
-
+						
 			    			<ProcessCard shortened={selectedProcess ? true : false}
 							     highlighted={selectedProcess
 									  ? selectedProcess.id == process.id
 									  : false }
 			    				     process={process}/>
-
+						
 					    </ListItem>
-
+					    
 					</ToggleButton>
 				    )
 				}
-
+				
 			    </ToggleButtonGroup>
-
+			    
 			</List>
 		    }
-
+		    
 		</Grid>
 		
 		{ selectedProcess ?
 		  <>
+			  <Grow in={selectedProcess}>
 		      <Grid item
 		 	    xs={5}>
-
+			  
 			  <Box className={classes.processDetailsWrapper}>
 			      <ProcessDetailsCard process={selectedProcess}
 		 				  onClose={deselectProcess}
 		 				  onDelete={deleteSelectedProcess}
 		 				  onEdit={() => openModal("editProcess")}/>
 			  </Box>
-
+			  
 		      </Grid>
-
+			  </Grow>
+		      
 		      <Modal open={modals.editProcess}
 		 	     onClose={() => closeModal("editProcess")}>
 		 	  <Box className={classes.mainContentWrapper}
@@ -351,7 +354,7 @@ const ProcessConsultationPage = ({...props}) => {
 		  </>
 		  : null
 		}
-
+		
 		<Snackbar className={classes.deletionSnackbar}
 			  autoHideDuration={3000}
 			  anchorOrigin={{
@@ -367,9 +370,9 @@ const ProcessConsultationPage = ({...props}) => {
 			</Typography>
 		    </Box>
 		</Snackbar>
-
+		
 	    </Grid>
-
+	    
 	</Box>
     );
 };
