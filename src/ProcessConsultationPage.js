@@ -77,7 +77,7 @@ const useStyles = makeStyles({
     list: {
 	maxHeight: "80vh",
 	overflow: "auto",
-	padding: "0 8px",
+	padding: "0 4px 0 1px",
     },
     
     processDetailsWrapper: {
@@ -221,7 +221,8 @@ const ProcessConsultationPage = ({...props}) => {
 		      spacing={2}>
 		    
 		    <Grid item
-			  xs={2}>
+			  xs={2}
+			  lg={2}>
 			<Typography className={classes.headerText}
 				    align="center">
 			    Busca de processos
@@ -229,14 +230,16 @@ const ProcessConsultationPage = ({...props}) => {
 		    </Grid>
 		    
 		    <Grid item
-			  xs={4}>
+			  xs={7}
+			  lg={4}>
 			<SearchBar inputRef={searchBarRef}
 				   query={query}
 				   onChange={handleQueryChange}/>
 		    </Grid>
 		    
 		    <Grid item
-			  xs={2}>
+			  xs={2}
+			  lg={2}>
 			
 			<Button onClick={() => openModal("newProcess")}
 				fullWidth
@@ -270,11 +273,13 @@ const ProcessConsultationPage = ({...props}) => {
 		</Grid>
 		
 		<Grid item
-		      xs={2}>
+		      xs={0}
+		      lg={2}>
 		</Grid>
 		
 		<Grid item
-		      xs={selectedProcess ? 4 : 8}>
+		      xs={selectedProcess ? 5 : 8}
+		      lg={selectedProcess ? 4 : 8}>
 		    
 		    { queryInProgress
 		      ? <Box className={classes.queryProgressWrapper}
@@ -322,8 +327,9 @@ const ProcessConsultationPage = ({...props}) => {
 		{ selectedProcess ?
 		  <>
 			  <Grow in={selectedProcess}>
-		      <Grid item
-		 	    xs={5}>
+			      <Grid item
+				    xs={6}
+		 		    lg={5}>
 			  
 			  <Box className={classes.processDetailsWrapper}>
 			      <ProcessDetailsCard process={selectedProcess}
