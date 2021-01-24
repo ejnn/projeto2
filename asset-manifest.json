@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/projeto2/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/projeto2/static/js/main.9d7e2d7a.chunk.js",
+    "main.js.map": "/projeto2/static/js/main.9d7e2d7a.chunk.js.map",
+    "runtime-main.js": "/projeto2/static/js/runtime-main.30a73973.js",
+    "runtime-main.js.map": "/projeto2/static/js/runtime-main.30a73973.js.map",
+    "static/css/2.4da4f553.chunk.css": "/projeto2/static/css/2.4da4f553.chunk.css",
+    "static/js/2.fd7aeeb5.chunk.js": "/projeto2/static/js/2.fd7aeeb5.chunk.js",
+    "static/js/2.fd7aeeb5.chunk.js.map": "/projeto2/static/js/2.fd7aeeb5.chunk.js.map",
+    "static/js/3.5c64099d.chunk.js": "/projeto2/static/js/3.5c64099d.chunk.js",
+    "static/js/3.5c64099d.chunk.js.map": "/projeto2/static/js/3.5c64099d.chunk.js.map",
+    "index.html": "/projeto2/index.html",
+    "static/css/2.4da4f553.chunk.css.map": "/projeto2/static/css/2.4da4f553.chunk.css.map",
+    "static/css/main.6dea0f05.chunk.css.map": "/projeto2/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.fd7aeeb5.chunk.js.LICENSE.txt": "/projeto2/static/js/2.fd7aeeb5.chunk.js.LICENSE.txt",
+    "static/media/imagemProcesso.b4556f0d.svg": "/projeto2/static/media/imagemProcesso.b4556f0d.svg",
+    "static/media/index.css": "/projeto2/static/media/montserrat-vietnamese-400-normal.6325549b.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.30a73973.js",
+    "static/css/2.4da4f553.chunk.css",
+    "static/js/2.fd7aeeb5.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.9d7e2d7a.chunk.js"
+  ]
+}
