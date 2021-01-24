@@ -8,6 +8,7 @@ import { ToggleButtonGroup, ToggleButton } from "@material-ui/lab";
 import { Modal } from "@material-ui/core";
 import { Box } from "@material-ui/core";
 import { Snackbar } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import theme from "./theme.js";
@@ -19,18 +20,22 @@ import ProcessFormCard from "./ProcessFormCard.js";
 
 const useStyles = makeStyles({
 
-    fonts: {
-	...theme.fonts,
+    headerText: {
 
-	buttonLabel: {
-	    
-	    ...theme.fonts.buttonLabel,
-	    
-	    color: theme.colors.black54,
-	    
-	},
+	...theme.fonts.title,
+
+	color: theme.colors.black87,
+	
     },
 
+    snackbarText: {
+
+	...theme.fonts.subtitle,
+
+	color: "white",
+
+    },
+    
     
     toggleButton: {
 	padding: "0",
@@ -96,7 +101,24 @@ const useStyles = makeStyles({
     mainContentWrapper: {
 	maxHeight: "80vh",
 	overflow: "auto",
-    }
+    },
+
+    buttonLabel: {
+
+	...theme.fonts.buttonLabel,
+
+	color: theme.colors.black87,
+
+    },
+
+    queryProgressWrapper: {
+	height: "80vh",
+    },
+
+    queryProgress: {
+	color: theme.colors.black38,
+    },
+
 });
 
 const ProcessConsultationPage = ({...props}) => {
@@ -140,9 +162,11 @@ const ProcessConsultationPage = ({...props}) => {
     }, [query]);
     
     const updateProcesses = () => {
+	setQueryInProgress(true);
 	fetch("http://localhost:3000/processo/?q=" + query)
 	    .then(res => res.json())
-	    .then(json => setProcesses(json.processos));
+	    .then(json => setProcesses(json.processos))
+	    .then(() => setQueryInProgress(false));
     }
     
     
@@ -180,7 +204,8 @@ const ProcessConsultationPage = ({...props}) => {
     const closeModal = (name) => {
 	setModals(modals => ({...modals, [name]: false}));
     };
-    
+
+    const [queryInProgress, setQueryInProgress] = useState(false);
     
     return (
 	<Box className={classes.pageContent}>
@@ -196,7 +221,7 @@ const ProcessConsultationPage = ({...props}) => {
 
 		    <Grid item
 			  xs={2}>
-			<Typography className={classes.title}
+			<Typography className={classes.headerText}
 				    align="center">
 			    Busca de processos
 			</Typography>
@@ -250,36 +275,46 @@ const ProcessConsultationPage = ({...props}) => {
 		<Grid item
 		      xs={selectedProcess ? 4 : 8}>
 
-		    <List className={classes.list}>
+		    { queryInProgress
+		      ? <Box className={classes.queryProgressWrapper}
+			     display="flex"
+			     alignItems="center"
+			     flexDirection="column"
+			     justifyContent="center">
+			    <CircularProgress className={classes.queryProgress}
+			   		      size="40%"/>
+			</Box>
+		      : <List className={classes.list}>
 
-			<ToggleButtonGroup className={classes.toggleButtonGroup}
-					   value={selectedProcess}
-					   onChange={handleSelectedProcess}
-					   exclusive
-					   orientation="vertical">
-			    {
-				processes.map(process =>
-				    <ToggleButton className={classes.toggleButton}
-						  value={process}>
+			    <ToggleButtonGroup className={classes.toggleButtonGroup}
+					       value={selectedProcess}
+					       onChange={handleSelectedProcess}
+					       exclusive
+					       orientation="vertical">
+				{
+				    processes.map(process =>
+					<ToggleButton className={classes.toggleButton}
+						      value={process}>
 
-					<ListItem className={classes.listItem}
-						  disableGutters>
+					    <ListItem className={classes.listItem}
+						      disableGutters>
 
-			    		    <ProcessCard shortened={selectedProcess ? true : false}
-							 highlighted={selectedProcess
-								      ? selectedProcess.id == process.id
-								      : false }
-			    				 process={process}/>
+			    			<ProcessCard shortened={selectedProcess ? true : false}
+							     highlighted={selectedProcess
+									  ? selectedProcess.id == process.id
+									  : false }
+			    				     process={process}/>
 
-					</ListItem>
+					    </ListItem>
 
-				    </ToggleButton>
-				)
-			    }
+					</ToggleButton>
+				    )
+				}
 
-			</ToggleButtonGroup>
+			    </ToggleButtonGroup>
 
-		    </List>
+			</List>
+		    }
 
 		</Grid>
 		
@@ -326,7 +361,7 @@ const ProcessConsultationPage = ({...props}) => {
 		      	  open={modals.deletionSnackbar}
 		      	  onClose={() => closeModal("deletionSnackbar")}>
 		    <Box className={classes.deletionSnackbar}>
-			<Typography className={classes.subtitle}
+			<Typography className={classes.snackbarText}
 				    align="center">
 			    Processo removido
 			</Typography>
