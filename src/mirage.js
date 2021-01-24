@@ -6,13 +6,17 @@ const digitsFormatter = digits => new Intl.NumberFormat("pt-BR", { useGrouping: 
 const randomInt = sup => Math.floor(Math.random() * Math.floor(sup));
 
 export default function startServer() {
+
     createServer({
+
 	models: {
 	    processo: Model,
 	},
 
 	factories: {
+
 	    processo: Factory.extend({
+
 		numero() {
 		    return (
 			"SOFT " 
@@ -26,7 +30,7 @@ export default function startServer() {
 		},
 
 		descricao() {
-		    return faker.random.words(randomInt(40) + 400);
+		    return faker.random.words(randomInt(60) + 60);
 		},
 
 		assunto() {
@@ -36,12 +40,17 @@ export default function startServer() {
 		interessados() {
 		    return new Array(randomInt(6) + 1).fill(1).map(() => faker.name.findName());
 		},
+
 	    }),
+
 	},
 
 	routes() {
+
 	    this.post("/processo", (schema, request) => {
+
 		const attrs = JSON.parse(request.requestBody);
+
 		return schema.processos.create({
 		    ...attrs,
 		    numero: "SOFT "
@@ -49,6 +58,7 @@ export default function startServer() {
 			+ "/" + digitsFormatter(5).format(faker.random.number()),
 		    entrada: new Date(faker.date.past()).toLocaleDateString("pt-BR"),
 		});
+
 	    });
 
 	    this.get("/processo/:id", (schema, request) => {
@@ -56,9 +66,12 @@ export default function startServer() {
 	    });
 
 	    this.get("/processo", (schema, request) => {
+
 		const query = request.queryParams.q;
+
 		return schema.processos
 		    .where(processo => Object.values(processo).some(value => value.includes(query)));
+
 	    });
 
 	    this.delete("/processo/:id", (schema, request) => {
@@ -66,13 +79,18 @@ export default function startServer() {
 	    });
 
 	    this.patch("/processo/:id", (schema, request) => {
+
 		const newAttrs = JSON.parse(request.requestBody);
+
 		return schema.processos.find(request.params.id).update(newAttrs);
+
 	    });
 	},
 
 	seeds(server) {
 	    server.createList("processo", randomInt(40));
 	}
+
     });
+
 };

@@ -1,74 +1,115 @@
 import { useState } from "react";
+
+import { Grid } from "@material-ui/core";
 import { Card, CardContent } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { IconButton } from "@material-ui/core";
-import { Grid } from "@material-ui/core";
-import { TextField } from "@material-ui/core";
-import { List, ListSubheader } from "@material-ui/core";
-import { Button } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
 import theme from "./theme.js";
 
 const useStyles = makeStyles({
-    ...theme,
 
-    title: {
-	...theme.title,
+    cardTitle: {
+
+	...theme.fonts.title,
+
 	color: theme.colors.black87,
 	paddingBottom: "0",
+
+    },
+
+    keyText: {
+
+	...theme.fonts.subtitle,
+
+	color: theme.colors.black54,
+
+    },
+
+    valueText: {
+
+	...theme.fonts.body,
+
+	color: theme.colors.black87,
+
     },
 
     textField: {
-	"&.MuiInputLabel-root": {
-	    ...theme.subtitle,
-	    color: "red",
+
+	"& .MuiInputBase-root": {
+
+	    ...theme.fonts.body,
+
+	    color: theme.colors.black87,
+	    
+	},
+
+	"& .MuiFormLabel-root": {
+
+	    ...theme.fonts.subtitle,
+
+	    color: theme.colors.black54,
+
 	}
+
     },
 
     closeButton: {
+	fill: theme.colors.black54,
 	position: "absolute",
 	right: "0",
 	top: "0",
-	fill: theme.colors.black54,
     },
 
     addButton: {
-	...theme.buttonLabel,
+
+	...theme.fonts.buttonLabel,
+
 	color: "white",
+
     },
 
     saveButton: {
-	...theme.buttonLabel,
+
+	...theme.fonts.buttonLabel,
+
 	backgroundColor: theme.colors.primary,
 	color: "white",
-    },
 
-    relative: {
-	position: "relative",
     },
 
     formCard: {
+
+	position: "relative",
+
 	"&.MuiPaper-root": {
 	    overflow: "auto",
 	},
-    }
+
+    },
+
 });
 
 const ProcessFormCard = ({ process, onClose }) => {
+
     const classes = useStyles();
 
-    const [formData, setFormData] = useState(process ? process
-					     : {
-						 assunto: "",
-						 interessados: [],
-						 descricao: ""
-					     }
-					    );
+    const [formData, setFormData] = useState(
+	process
+	    ? process
+	    : {
+		assunto: "",
+		interessados: [],
+		descricao: ""
+	    }
+    );
     
     const handleChange = (event) => {
-	setFormData(data => ({...data, [event.target.name]: event.target.value}));
+    	setFormData(data => ({...data, [event.target.name]: event.target.value}));
     };
 
     const [novoInteressado, setNovoInteressado] = useState("");
@@ -83,7 +124,9 @@ const ProcessFormCard = ({ process, onClose }) => {
     };
 
     const handleSubmit = () => {
+
 	const reqBody = {};
+
 	Object.keys(formData).forEach(key => {
 	    if (typeof process == "undefined" || formData[key] !== process[key]) {
 		reqBody[key] = formData[key];
@@ -98,8 +141,8 @@ const ProcessFormCard = ({ process, onClose }) => {
 	    body: JSON.stringify(reqBody)
 	};
 
-	// se estivermos editando um processo novo,
-	// mandaremos um POST; caso contrário, um PATCH!
+	// se estivermos criando um processo novo, mandaremos um POST.
+	// se não, estamos editando um processo existente; mandaremos um PATCH.
 	if (typeof process == "undefined") {
 	    options.method = "POST";
 	    fetch("http://localhost:3000/processo/", options);
@@ -113,7 +156,9 @@ const ProcessFormCard = ({ process, onClose }) => {
 
     return (
 	<Card className={classes.formCard}>
-	    <CardContent className={classes.relative}>
+
+	    <CardContent className={classes.cardContent}>
+
 	    	<IconButton className={classes.closeButton}
 			    onClick={onClose}>
 	    	    <CloseIcon/>
@@ -122,9 +167,10 @@ const ProcessFormCard = ({ process, onClose }) => {
 		<Grid container
 		      spacing={2}
 		      alignItems="center">
+
 		    <Grid item
 			  xs={11}>
-			<Typography className={classes.title}>
+			<Typography className={classes.cardTitle}>
 			    Cadastro de processo
 			</Typography>
 		    </Grid>
@@ -146,11 +192,11 @@ const ProcessFormCard = ({ process, onClose }) => {
 
 	    	    <Grid item
 	    		  xs={5}>
-			<List subheader={
-				  <ListSubheader disableGutters>
-				      Interessados
-				  </ListSubheader>
-			      }>
+
+			<Typography className={classes.keyText}>
+			    Interessados
+			</Typography>
+
 			    {
 				<Grid container
 				      spacing={1}>
@@ -158,7 +204,7 @@ const ProcessFormCard = ({ process, onClose }) => {
 					formData.interessados.map(interessado =>
 					    <Grid item
 						  xs={6}>
-						<Typography variant="body1">
+						<Typography className={classes.valueText}>
 						    {interessado}
 						</Typography>
 					    </Grid>
@@ -166,7 +212,7 @@ const ProcessFormCard = ({ process, onClose }) => {
 				    }
 				</Grid>
 			    }
-			</List>
+
 	    	    </Grid>
 
 		    <Grid item
@@ -175,19 +221,23 @@ const ProcessFormCard = ({ process, onClose }) => {
 
 		    <Grid item
 			  xs={5}>
+
 			<TextField value={novoInteressado}
 				   onChange={handleNovoInteressadoChange}
 				   fullWidth
 				   label="Novo interessado"/>
+
 		    </Grid>
 
 		    <Grid item
 			  xs={2}>
+
 			<Button className={classes.addButton}
 				onClick={addNovoInteressado}
 				variant="contained">
 			    adicionar
 			</Button>
+
 		    </Grid>
 
 		    <Grid item
@@ -196,12 +246,15 @@ const ProcessFormCard = ({ process, onClose }) => {
 
 		    <Grid item
 			  xs={10}>
-			<TextField value={formData.descricao}
+
+			<TextField className={classes.textField}
+				   value={formData.descricao}
 				   name="descricao"
 				   onChange={handleChange}
 				   fullWidth
 				   label="Descrição"
 				   multiline/>
+
 		    </Grid>
 
 		    <Grid item
@@ -223,16 +276,20 @@ const ProcessFormCard = ({ process, onClose }) => {
 
 		    <Grid item
 			  xs={2}>
+
 			<Button className={classes.saveButton}
 				onClick={handleSubmit}
 				variant="contained"
 				fullWidth>
 			    salvar
 			</Button>
+
 		    </Grid>
 
 		</Grid>
+
 	    </CardContent>
+
 	</Card>
     );
 };

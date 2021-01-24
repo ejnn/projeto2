@@ -2,34 +2,43 @@ import { Input, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
 import theme from "./theme.js";
 
-const searchPlaceholder = "Pesquise por uma informação do processo";
 
 const useStyles = makeStyles({
-    ...theme,
 
     searchIcon: {
 	fill: theme.colors.black54,
     },
+
+    searchInput: {
+	...theme.fonts.body,
+    },
     
     searchCard: {
-	//minWidth: "464px",
 
 	padding: "8px",
 	"&:last-child": {
 	    paddingBottom: "8px",
 	}
+
     }
+
 });
 
+const searchPlaceholder = "Pesquise por uma informação do processo";
+
 const SearchBar = ({ query, onChange, inputRef }) => {
+
     const classes = useStyles();
     
     return (
 	<Card>
+
 	    <CardContent className={classes.searchCard}>
-		<Input className={classes.body}
+
+		<Input className={classes.searchInput}
 		       inputRef={inputRef}
 		       value={query}
 		       onChange={onChange}
@@ -39,9 +48,10 @@ const SearchBar = ({ query, onChange, inputRef }) => {
 		       endAdornment={
 			   <InputAdornment>
 			       <SearchIcon className={classes.searchIcon}/>
-			   </InputAdornment>
-		       }/>
+			   </InputAdornment>}/>
+
 	    </CardContent>
+
 	</Card>
     );
 };

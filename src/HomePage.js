@@ -15,22 +15,32 @@ import theme from "./theme.js";
 import SearchBar from "./SearchBar.js";
 
 const useStyles = makeStyles({
-    ...theme,
-    
-    headline: {
-	...theme.headline,
-	color: theme.colors.primary,
+
+    pageTitle: {
+
+    	...theme.fonts.headline,
+
+    	color: theme.colors.primary,
+
+    },
+
+    pageSubtitle: {
+	...theme.fonts.body,
     },
     
     newProcessLink: {
-	...theme.body,
+
+	...theme.fonts.body,
+
 	color: theme.colors.primary,
 	textDecoration: "underline",
 	fontWeight: "bold",
+
     }
 });
 
 const HomePage = ({...props}) => {
+
     const classes = useStyles();
     
     const [modal, setModal] = useState(false);
@@ -51,7 +61,7 @@ const HomePage = ({...props}) => {
 	     alignContent="center"
 	     minHeight="100vh">
 	    
-	    <Typography className={classes.headline}>
+	    <Typography className={classes.pageTitle}>
 	   	Busca de processos
 	    </Typography>
 	    
@@ -67,7 +77,7 @@ const HomePage = ({...props}) => {
 	    <Box height="64px">
 	    </Box>
 	    
-	    <Typography className={classes.body}>
+	    <Typography className={classes.pageSubtitle}>
 		Você pode criar um novo processo <Link className={classes.newProcessLink}
 						       onClick={handleModalOpen}
 						       component="span">clicando aqui</Link>.
