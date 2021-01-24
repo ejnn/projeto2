@@ -112,15 +112,8 @@ const ProcessFormCard = ({ process, onClose }) => {
     	setFormData(data => ({...data, [event.target.name]: event.target.value}));
     };
     
-    const [novoInteressado, setNovoInteressado] = useState("");
-    
-    const handleNovoInteressadoChange = (event) => {
-	setNovoInteressado(event.target.value);
-    };
-    
-    const addNovoInteressado = () => {
+    const pushNovoInteressado = (novoInteressado) => {
 	setFormData(data => ({...data, interessados: [...data.interessados, novoInteressado]}));
-	setNovoInteressado("");
     };
     
     const handleSubmit = () => {
@@ -154,25 +147,37 @@ const ProcessFormCard = ({ process, onClose }) => {
 	onClose();
     };
     
-    const ListField = () => {
+    const ListField = ({ keyText, items, pushButtonLabel, push }) => {
+	const [newItem, setNewItem] = useState("");
+    
+	const handleNewItemChange = (event) => {
+	    setNewItem(event.target.value);
+	};
+
+	const handlePush = () => {
+	    push(newItem);
+	    setNewItem("");
+	};
+    
 	return (
 	    <>
 	    	<Grid item
 	    	      xs={5}>
 		    
 		    <Typography className={classes.keyText}>
-			Interessados
+			{ keyText }
 		    </Typography>
 		    
 		    {
 			<Grid container
 			      spacing={1}>
 			    {
-				formData.interessados.map(interessado =>
+				items.map(item =>
 				    <Grid item
-					  xs={6}>
+					  xs={6}
+					  key={item}>
 					<Typography className={classes.valueText}>
-					    {interessado}
+					    {item}
 					</Typography>
 				    </Grid>
 				)
@@ -189,10 +194,10 @@ const ProcessFormCard = ({ process, onClose }) => {
 		<Grid item
 		      xs={5}>
 		    
-		    <TextField value={novoInteressado}
-			       onChange={handleNovoInteressadoChange}
+		    <TextField value={newItem}
+			       onChange={handleNewItemChange}
 			       fullWidth
-			       label="Novo interessado"/>
+			       label={pushButtonLabel}/>
 		    
 		</Grid>
 		
@@ -200,7 +205,7 @@ const ProcessFormCard = ({ process, onClose }) => {
 		      xs={2}>
 		    
 		    <Button className={classes.addButton}
-			    onClick={addNovoInteressado}
+			    onClick={handlePush}
 			    variant="contained">
 			adicionar
 		    </Button>
@@ -251,7 +256,10 @@ const ProcessFormCard = ({ process, onClose }) => {
 	    		  xs={7}>
 	    	    </Grid>
 		    
-		    <ListField/>
+		    <ListField keyText="Interessados"
+			       items={formData.interessados}
+			       pushButtonLabel="Novo interessado"
+			       push={pushNovoInteressado}/>
 		    
 		    <Grid item
 			  xs={10}>
