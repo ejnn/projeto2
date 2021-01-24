@@ -77,7 +77,8 @@ const ProcessCard = ({ process, shortened, highlighted }) => {
 			      xs={2}>
 			    <Box display="flex">
 				<img className={classes.widthfulImage}
-				     src={cardImage}/>
+				     src={cardImage}
+				     alt="Placeholder"/>
 			    </Box>
 			</Grid>
 		    }

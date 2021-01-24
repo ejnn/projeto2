@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent, CardActions } from "@material-ui/core";
+import { Card, CardContent, CardActions } from "@material-ui/core";
 import { Button, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { Typography } from "@material-ui/core";
@@ -94,7 +94,8 @@ const ProcessDetailsCard = ({ process, onClose, onDelete, onEdit }) => {
 			      xs={4}>
 			    <Box display="flex">
 				<img className={classes.widthfulImage}
-				     src={headerImage}/>
+				     src={headerImage}
+				     alt="Placeholder"/>
 			    </Box>
 			</Grid>
 

@@ -26,7 +26,7 @@ export default function startServer() {
 		},
 
 		descricao() {
-		    return faker.random.words(randomInt(40) + 40);
+		    return faker.random.words(randomInt(40) + 400);
 		},
 
 		assunto() {
@@ -42,7 +42,13 @@ export default function startServer() {
 	routes() {
 	    this.post("/processo", (schema, request) => {
 		const attrs = JSON.parse(request.requestBody);
-		return schema.processos.create(attrs);
+		return schema.processos.create({
+		    ...attrs,
+		    numero: "SOFT "
+			+ (new Date(faker.date.past()).getFullYear()).toString()
+			+ "/" + digitsFormatter(5).format(faker.random.number()),
+		    entrada: new Date(faker.date.past()).toLocaleDateString("pt-BR"),
+		});
 	    });
 
 	    this.get("/processo/:id", (schema, request) => {

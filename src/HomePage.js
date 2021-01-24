@@ -1,21 +1,18 @@
 import { useState } from "react";
 
-import { Input, InputAdornment } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
 import { Typography } from "@material-ui/core";
 import { Box } from "@material-ui/core";
-import { Card, CardContent } from "@material-ui/core";
 import { Link } from "@material-ui/core";
 import { Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
+import { Link as RouterLink } from "react-router-dom";
 
 import ProcessFormCard from "./ProcessFormCard.js";
 
 import theme from "./theme.js";
 
 import SearchBar from "./SearchBar.js";
-
-const searchPlaceholder = "  Pesquise por uma informação do processo";
 
 const useStyles = makeStyles({
     ...theme,
@@ -33,7 +30,7 @@ const useStyles = makeStyles({
     }
 });
 
-const HomePage = ({}) => {
+const HomePage = ({...props}) => {
     const classes = useStyles();
     
     const [modal, setModal] = useState(false);
@@ -62,7 +59,9 @@ const HomePage = ({}) => {
 	    </Box>
 	    
 	    <Box width="464px">
-		<SearchBar/>
+		<RouterLink to="/consulta">
+		    <SearchBar/>
+		</RouterLink>
 	    </Box>
 	    
 	    <Box height="64px">

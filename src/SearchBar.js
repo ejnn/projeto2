@@ -23,13 +23,14 @@ const useStyles = makeStyles({
     }
 });
 
-const SearchBar = ({ query, onChange }) => {
+const SearchBar = ({ query, onChange, inputRef }) => {
     const classes = useStyles();
     
     return (
 	<Card>
 	    <CardContent className={classes.searchCard}>
 		<Input className={classes.body}
+		       inputRef={inputRef}
 		       value={query}
 		       onChange={onChange}
 		       fullWidth

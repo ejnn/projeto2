@@ -6,3 +6,4 @@
 - [faker.js](https://github.com/Marak/Faker.js) para a simulação de dados nos endpoints;
 - [material-ui](https://material-ui.com/) para alavancar a UI;
 - [fontsource-montserrat](https://github.com/fontsource/fontsource/tree/master/packages/montserrat#readme) para fontes;
+- [react-router-dom](https://reactrouter.com/) para controle de rotas;

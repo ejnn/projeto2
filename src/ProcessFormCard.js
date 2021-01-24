@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { Card, CardHeader, CardContent, CardActions } from "@material-ui/core";
+import { useState } from "react";
+import { Card, CardContent } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { IconButton } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
-import { List, ListSubheader, ListItem } from "@material-ui/core";
+import { List, ListSubheader } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
@@ -46,8 +46,14 @@ const useStyles = makeStyles({
     },
 
     relative: {
-	position: "relative"
+	position: "relative",
     },
+
+    formCard: {
+	"&.MuiPaper-root": {
+	    overflow: "auto",
+	},
+    }
 });
 
 const ProcessFormCard = ({ process, onClose }) => {
@@ -106,7 +112,7 @@ const ProcessFormCard = ({ process, onClose }) => {
     };
 
     return (
-	<Card>
+	<Card className={classes.formCard}>
 	    <CardContent className={classes.relative}>
 	    	<IconButton className={classes.closeButton}
 			    onClick={onClose}>
@@ -130,6 +136,7 @@ const ProcessFormCard = ({ process, onClose }) => {
 				   name="assunto"
 				   onChange={handleChange}
 				   fullWidth
+				   multiline
 				   label="Assunto"/>
 	    	    </Grid>
 
