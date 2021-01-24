@@ -13,21 +13,21 @@ startServer();
 
 function App() {
     return (
-
+	
 	<Router>
-
+	    
 	    <Switch>
-
+		
 		<Route path="/consulta">
 		    <ProcessConsultationPage/>
 		</Route>
-
+		
 		<Route>
 		    <HomePage/>
 		</Route>
-
+		
 	    </Switch>
-
+	    
 	</Router>
     );
 }

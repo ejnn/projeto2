@@ -149,16 +149,16 @@ const ProcessFormCard = ({ process, onClose }) => {
     
     const ListField = ({ keyText, items, pushButtonLabel, push }) => {
 	const [newItem, setNewItem] = useState("");
-    
+	
 	const handleNewItemChange = (event) => {
 	    setNewItem(event.target.value);
 	};
-
+	
 	const handlePush = () => {
 	    push(newItem);
 	    setNewItem("");
 	};
-    
+	
 	return (
 	    <>
 	    	<Grid item

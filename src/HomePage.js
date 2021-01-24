@@ -15,32 +15,32 @@ import theme from "./theme.js";
 import SearchBar from "./SearchBar.js";
 
 const useStyles = makeStyles({
-
+    
     pageTitle: {
-
+	
     	...theme.fonts.headline,
-
+	
     	color: theme.colors.primary,
-
+	
     },
-
+    
     pageSubtitle: {
 	...theme.fonts.body,
     },
     
     newProcessLink: {
-
+	
 	...theme.fonts.body,
-
+	
 	color: theme.colors.primary,
 	textDecoration: "underline",
 	fontWeight: "bold",
-
+	
     }
 });
 
 const HomePage = ({...props}) => {
-
+    
     const classes = useStyles();
     
     const [modal, setModal] = useState(false);

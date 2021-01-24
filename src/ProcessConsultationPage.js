@@ -326,20 +326,20 @@ const ProcessConsultationPage = ({...props}) => {
 		
 		{ selectedProcess ?
 		  <>
-			  <Grow in={selectedProcess}>
-			      <Grid item
-				    xs={6}
-		 		    lg={5}>
-			  
-			  <Box className={classes.processDetailsWrapper}>
-			      <ProcessDetailsCard process={selectedProcess}
-		 				  onClose={deselectProcess}
-		 				  onDelete={deleteSelectedProcess}
-		 				  onEdit={() => openModal("editProcess")}/>
-			  </Box>
-			  
-		      </Grid>
-			  </Grow>
+		      <Grow in={selectedProcess}>
+			  <Grid item
+				xs={6}
+		 		lg={5}>
+			      
+			      <Box className={classes.processDetailsWrapper}>
+				  <ProcessDetailsCard process={selectedProcess}
+		 				      onClose={deselectProcess}
+		 				      onDelete={deleteSelectedProcess}
+		 				      onEdit={() => openModal("editProcess")}/>
+			      </Box>
+			      
+			  </Grid>
+		      </Grow>
 		      
 		      <Modal open={modals.editProcess}
 		 	     onClose={() => closeModal("editProcess")}>
