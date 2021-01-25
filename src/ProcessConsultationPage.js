@@ -164,7 +164,7 @@ const ProcessConsultationPage = ({...props}) => {
     
     const updateProcesses = () => {
 	setQueryInProgress(true);
-	fetch("http://localhost:3000/processo/?q=" + query)
+	fetch("/processo/?q=" + query)
 	    .then(res => res.json())
 	    .then(json => setProcesses(json.processos))
 	    .then(() => setQueryInProgress(false));
@@ -182,7 +182,7 @@ const ProcessConsultationPage = ({...props}) => {
     };
     
     const deleteSelectedProcess = () => {
-	fetch("http://localhost:3000/processo/" + selectedProcess.id,
+	fetch("/processo/" + selectedProcess.id,
 	      {
 		  method: "DELETE"
 	      }
@@ -273,7 +273,7 @@ const ProcessConsultationPage = ({...props}) => {
 		</Grid>
 		
 		<Grid item
-		      xs={0}
+		      xs={false}
 		      lg={2}>
 		</Grid>
 		
@@ -300,7 +300,8 @@ const ProcessConsultationPage = ({...props}) => {
 				{
 				    processes.map(process =>
 					<ToggleButton className={classes.toggleButton}
-						      value={process}>
+						      value={process}
+						      key={process.id}>
 					    
 					    <ListItem className={classes.listItem}
 						      disableGutters>
@@ -326,7 +327,7 @@ const ProcessConsultationPage = ({...props}) => {
 		
 		{ selectedProcess ?
 		  <>
-		      <Grow in={selectedProcess}>
+		      <Grow in={!!selectedProcess}>
 			  <Grid item
 				xs={6}
 		 		lg={5}>

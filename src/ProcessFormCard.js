@@ -138,10 +138,10 @@ const ProcessFormCard = ({ process, onClose }) => {
 	// se não, estamos editando um processo existente; mandaremos um PATCH.
 	if (typeof process == "undefined") {
 	    options.method = "POST";
-	    fetch("http://localhost:3000/processo/", options);
+	    fetch("/processo/", options);
 	} else {
 	    options.method = "PATCH";
-	    fetch("http://localhost:3000/processo/" + process.id, options);
+	    fetch("/processo/" + process.id, options);
 	}
 	
 	onClose();
