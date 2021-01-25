@@ -9,6 +9,8 @@ import { TextField } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
+import ListField from "./ListField.js";
+
 import theme from "./theme.js";
 
 const useStyles = makeStyles({
@@ -91,7 +93,7 @@ const useStyles = makeStyles({
 	},
 	
     },
-    
+
 });
 
 const ProcessFormCard = ({ process, onClose }) => {
@@ -145,78 +147,6 @@ const ProcessFormCard = ({ process, onClose }) => {
 	}
 	
 	onClose();
-    };
-    
-    const ListField = ({ keyText, items, pushButtonLabel, push }) => {
-	const [newItem, setNewItem] = useState("");
-	
-	const handleNewItemChange = (event) => {
-	    setNewItem(event.target.value);
-	};
-	
-	const handlePush = () => {
-	    push(newItem);
-	    setNewItem("");
-	};
-	
-	return (
-	    <>
-	    	<Grid item
-	    	      xs={5}>
-		    
-		    <Typography className={classes.keyText}>
-			{ keyText }
-		    </Typography>
-		    
-		    {
-			<Grid container
-			      spacing={1}>
-			    {
-				items.map(item =>
-				    <Grid item
-					  xs={6}
-					  key={item}>
-					<Typography className={classes.valueText}>
-					    {item}
-					</Typography>
-				    </Grid>
-				)
-			    }
-			</Grid>
-		    }
-		    
-	    	</Grid>
-		
-		<Grid item
-		      xs={7}>
-		</Grid>
-		
-		<Grid item
-		      xs={5}>
-		    
-		    <TextField value={newItem}
-			       onChange={handleNewItemChange}
-			       fullWidth
-			       label={pushButtonLabel}/>
-		    
-		</Grid>
-		
-		<Grid item
-		      xs={2}>
-		    
-		    <Button className={classes.addButton}
-			    onClick={handlePush}
-			    variant="contained">
-			adicionar
-		    </Button>
-		    
-		</Grid>
-		
-		<Grid item
-		      xs={5}>
-		</Grid>
-	    </>
-	);
     };
     
     return (
