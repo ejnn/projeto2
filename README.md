@@ -1,5 +1,8 @@
 # Projeto \#2 DEVinHouse
 
+Este é o segundo projeto do curso DEV in House!
+É possível dar uma olhada nele [clicando aqui](https://ejnn.github.io/projeto2).
+
 ### Dependências
 - [create-react-app](https://github.com/facebook/create-react-app) como toolchain;
 - [miragejs](https://miragejs.com) para mockup dos endpoints, que não estarão disponíveis;

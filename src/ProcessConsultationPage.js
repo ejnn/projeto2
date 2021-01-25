@@ -108,7 +108,7 @@ const useStyles = makeStyles({
 	
 	...theme.fonts.buttonLabel,
 	
-	color: theme.colors.black87,
+	color: theme.colors.black38,
 	
     },
     

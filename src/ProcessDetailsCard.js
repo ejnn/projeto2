@@ -62,7 +62,12 @@ const useStyles = makeStyles({
     
     cardActions: {
 	justifyContent: "flex-end",
-    }
+    },
+
+    buttonLabel: {
+	...theme.fonts.buttonLabel,
+    },
+	
 });
 
 const ProcessDetailsCard = ({ process, onClose, onDelete, onEdit }) => {
